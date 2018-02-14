@@ -13,8 +13,13 @@ var Hospital = require('../models/hospital');
 // ======================================================================
 app.get('/', (req, res, next) => {
 
-    Hospital.find({ }) 
+    var from = req.query.from || 0;
+    from = Number(from);
 
+    Hospital.find({ })
+        .skip(from)
+        .limit(5) 
+        .populate('user', 'name email')
         .exec(
             ( err, hospitals) => {
 
@@ -27,10 +32,15 @@ app.get('/', (req, res, next) => {
                     });
     
                 }
-    
-                res.status(200).json({
-                    ok: true,
-                    hospitals: hospitals
+
+                Hospital.count({}, (error, count) => {
+
+                    res.status(200).json({
+                        ok: true,
+                        hospitals: hospitals,
+                        total: count
+                    });
+                    
                 });
     
             }

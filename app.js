@@ -19,6 +19,7 @@ var doctorRoutes = require('./routes/doctor');
 var hospitalRoutes = require('./routes/hospital');
 var loginRoutes = require('./routes/login');
 var userRoutes = require('./routes/user');
+var searchRoutes = require('./routes/search');
 
 // Connect BD
 mongoose.connection.openUri('mongodb://localhost:27017/hospitalDB', (err, res) => {
@@ -34,6 +35,7 @@ app.use('/user', userRoutes);
 app.use('/doctor', doctorRoutes);
 app.use('/hospital', hospitalRoutes);
 app.use('/login', loginRoutes);
+app.use('/search', searchRoutes);
 app.use('/', appRoutes);
 
 // Listen express

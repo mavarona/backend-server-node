@@ -13,8 +13,12 @@ var User = require('../models/user');
 // ======================================================================
 app.get('/', (req, res, next) => {
 
-    User.find({ }, 'name email img role') 
+    var from = req.query.from || 0;
+    from = Number(from);
 
+    User.find({ }, 'name email img role') 
+        .skip(from)
+        .limit(5)
         .exec(
             ( err, users) => {
 
@@ -27,10 +31,15 @@ app.get('/', (req, res, next) => {
                     });
     
                 }
-    
-                res.status(200).json({
-                    ok: true,
-                    users: users
+
+                User.count({}, (error, count) => {
+
+                    res.status(200).json({
+                        ok: true,
+                        users: users,
+                        total: count
+                    });
+                    
                 });
     
             }

@@ -13,8 +13,14 @@ var Doctor = require('../models/doctor');
 // ======================================================================
 app.get('/', (req, res, next) => {
 
-    Doctor.find({ }) 
+    var from = req.query.from || 0;
+    from = Number(from);
 
+    Doctor.find({ }) 
+        .skip(from)
+        .limit(5)
+        .populate('user', 'name email')
+        .populate('hospital')
         .exec(
             ( err, doctors) => {
 
@@ -27,10 +33,15 @@ app.get('/', (req, res, next) => {
                     });
     
                 }
-    
-                res.status(200).json({
-                    ok: true,
-                    doctors: doctors
+                
+                Doctor.count({}, (error, count) => {
+
+                    res.status(200).json({
+                        ok: true,
+                        doctors: doctors,
+                        total: count
+                    });
+                    
                 });
     
             }
