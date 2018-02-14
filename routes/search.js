@@ -7,7 +7,55 @@ var Hospital = require('../models/hospital');
 var Doctor = require('../models/doctor');
 var User = require('../models/user');
 
-// Routes
+// ======================================================================
+// Search by collection
+// ======================================================================
+app.get('/collection/:table/:search', (req, res) => {
+
+    var search = req.params.search;
+    var table = req.params.table;
+    var regex = new RegExp( search, 'i' );
+
+    var promise;
+
+    switch( table ) {
+
+        case 'users':
+            promise = searchUser(regex);
+            break;
+        
+        case 'doctors':
+            promise = searchDoctor(regex);
+            break;
+        
+        case 'hospitals':
+            promise = searchHospital(regex);
+            break;
+        default:
+            return res.status(400).json({
+                ok: false,
+                message: 'The type of search are doctors, users and hospitals',
+                error: { message: 'Type of collection is not valid' }
+            });
+
+    }
+
+    promise.then( data => {
+
+        res.status(200).json({
+             ok: true,
+             [table]: data
+         });
+
+     });
+
+
+});
+
+
+// ======================================================================
+// Search general
+// ======================================================================
 app.get('/all/:search', (req, res, next) => {
 
     var search = req.params.search;
