@@ -19,6 +19,7 @@ var doctorRoutes = require('./routes/doctor');
 var hospitalRoutes = require('./routes/hospital');
 var loginRoutes = require('./routes/login');
 var userRoutes = require('./routes/user');
+var uploadRoutes = require('./routes/upload');
 var searchRoutes = require('./routes/search');
 
 // Connect BD
@@ -36,6 +37,7 @@ app.use('/doctor', doctorRoutes);
 app.use('/hospital', hospitalRoutes);
 app.use('/login', loginRoutes);
 app.use('/search', searchRoutes);
+app.use('/upload', uploadRoutes);
 app.use('/', appRoutes);
 
 // Listen express
