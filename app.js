@@ -17,10 +17,11 @@ app.use(bodyParser.json());
 var appRoutes = require('./routes/app');
 var doctorRoutes = require('./routes/doctor');
 var hospitalRoutes = require('./routes/hospital');
+var imageRoutes = require('./routes/images');
 var loginRoutes = require('./routes/login');
+var searchRoutes = require('./routes/search');
 var userRoutes = require('./routes/user');
 var uploadRoutes = require('./routes/upload');
-var searchRoutes = require('./routes/search');
 
 // Connect BD
 mongoose.connection.openUri('mongodb://localhost:27017/hospitalDB', (err, res) => {
@@ -32,15 +33,18 @@ mongoose.connection.openUri('mongodb://localhost:27017/hospitalDB', (err, res) =
 });
 
 // Routes
+
 app.use('/user', userRoutes);
 app.use('/doctor', doctorRoutes);
 app.use('/hospital', hospitalRoutes);
+app.use('/image', imageRoutes);
 app.use('/login', loginRoutes);
 app.use('/search', searchRoutes);
 app.use('/upload', uploadRoutes);
 app.use('/', appRoutes);
 
 // Listen express
+
 app.listen(3000, () => {
     console.log('Express server port 3000: \x1b[32m%s\x1b[0m', 'online');
 });
