@@ -31,17 +31,18 @@ app.post('/', ( req, res ) => {
     
             return res.status(400).json({
                 ok: false,
-                message: 'wrong credentials',
+                message: 'wrong credentials' + body.password + '-' + userDB.password,
                 error: err
             });
 
         }
 
+
         if ( !bcrypt.compareSync( body.password, userDB.password )) {
   
             return res.status(400).json({
                 ok: false,
-                message: 'wrong credentials',
+                message: 'wrong credentials' + body.password + '-' + userDB.password,
                 error: err
             });
 
