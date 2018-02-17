@@ -16,20 +16,20 @@ app.get('/', (req, res, next) => {
     var from = req.query.from || 0;
     from = Number(from);
 
-    User.find({ }, 'name email img role') 
+    User.find({ }, 'name email img role')
         .skip(from)
         .limit(5)
         .exec(
             ( err, users) => {
 
                 if( err ) {
-    
+
                     return res.status(500).json({
                         ok: false,
                         message: 'Error get Users',
                         error: err
                     });
-    
+
                 }
 
                 User.count({}, (error, count) => {
@@ -39,18 +39,18 @@ app.get('/', (req, res, next) => {
                         users: users,
                         total: count
                     });
-                    
+
                 });
-    
+
             }
         );
-        
+
 });
 
 // ======================================================================
 // Create new user
 // ======================================================================
-app.post('/', mdAuthentication.verifyToken , ( req, res ) => {
+app.post('/', ( req, res ) => {
 
     var body = req.body;
 
@@ -104,7 +104,7 @@ app.put('/:id', mdAuthentication.verifyToken , ( req, res) => {
                 error: err
             });
 
-        }        
+        }
 
         if ( !user ) {
 
@@ -123,22 +123,22 @@ app.put('/:id', mdAuthentication.verifyToken , ( req, res) => {
         user.save( (err, userSaved) => {
 
             if ( err ) {
-    
+
                 return res.status(400).json({
                     ok: false,
                     message: 'Error update User',
                     error: err
                 });
-    
+
             }
 
             userSaved.password = ':-)';
-    
+
             res.status(200).json({
                 ok: true,
                 user: userSaved
             });
-    
+
         });
 
     });
@@ -162,8 +162,8 @@ app.delete('/:id', mdAuthentication.verifyToken , (req, res) => {
                 error: err
             });
 
-        } 
-        
+        }
+
         if ( !userDeleted ) {
 
             return res.status(400).json({
