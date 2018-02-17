@@ -14,7 +14,7 @@ const GOOGLE_CLIENT_ID = require('../config/config').GOOGLE_CLIENT_ID;
 const GOOGLE_SECRET = require('../config/config').GOOGLE_SECRET;
 
 // ======================================================================
-// Authentication google 
+// Authentication google
 // ======================================================================
 
 app.post('/google', (req, res) => {
@@ -36,7 +36,7 @@ app.post('/google', (req, res) => {
                     message: 'Token not valid',
                     errors: e
                 });
-            } 
+            }
 
             var payload = login.getPayload();
             var userid = payload['sub'];
@@ -60,9 +60,9 @@ app.post('/google', (req, res) => {
                         });
                     } else {
                         var token = jwt.sign({ user: user }, SEED, { expiresIn: 14400 }); // 4 hours
-              
+
                         user.password = ':-)';
-                
+
                         res.status(200).json({
                             ok: true,
                             user: user,
@@ -70,49 +70,49 @@ app.post('/google', (req, res) => {
                             id: user._id
                         });
                     }
-              
+
                 } else {
-                    
+
                     var userNew = new User();
                     userNew.name = payload.name;
                     userNew.email = payload.email;
                     userNew.password = ':-)';
                     userNew.img = payload.picture;
                     userNew.google = true;
-              
+
                     userNew.save( (err, userDB) => {
-              
+
                         if( err ) {
                             return res.status(500).json({
                                 ok: false,
                                 message: 'Error to create user' + e,
-                                errors: e   
+                                errors: e
                             });
                         }
-              
+
                         var token = jwt.sign({ user: userDB }, SEED, { expiresIn: 14400 }) // 4 hours
-              
+
                         userDB.password = ':-)';
-                
+
                         res.status(200).json({
                             ok: true,
                             user: userDB,
                             token: token,
                             id: userDB._id
-                        });           
-              
+                        });
+
                     });
-              
+
                 }
 
-            });           
+            });
 
         });
 
 });
 
 // ======================================================================
-// Authentication basic 
+// Authentication basic
 // ======================================================================
 app.post('/', ( req, res ) => {
 
@@ -121,7 +121,7 @@ app.post('/', ( req, res ) => {
     User.findOne( { email: body.email }, ( err, userDB ) => {
 
         if( err ) {
-    
+
             return res.status(500).json({
                 ok: false,
                 message: 'Error Login',
@@ -131,10 +131,10 @@ app.post('/', ( req, res ) => {
         }
 
         if( !userDB ) {
-    
+
             return res.status(400).json({
                 ok: false,
-                message: 'wrong credentials' + body.password + '-' + userDB.password,
+                message: 'wrong credentials' + body.password,
                 error: err
             });
 
@@ -142,7 +142,7 @@ app.post('/', ( req, res ) => {
 
 
         if ( !bcrypt.compareSync( body.password, userDB.password )) {
-  
+
             return res.status(400).json({
                 ok: false,
                 message: 'wrong credentials' + body.password + '-' + userDB.password,
