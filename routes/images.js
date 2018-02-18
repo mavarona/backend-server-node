@@ -21,11 +21,6 @@ app.get('/:type/:img', (req, res, next) => {
         res.sendFile( path );
 
     });
-
-    res.status(200).json({
-        ok: true,
-        message: 'Response from the server'
-    });
     
 });
 
