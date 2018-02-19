@@ -6,6 +6,8 @@ var bodyParser = require('body-parser');
 // Init Variables
 var app = express();
 
+global.ASSETS = __dirname + '/assets/';
+
 // CORS
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");

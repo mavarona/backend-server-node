@@ -2,6 +2,7 @@ var express = require('express');
 var fs = require('fs');
 
 var app = express();
+var path = require('path');
 
 // Routes
 
@@ -10,18 +11,19 @@ app.get('/:type/:img', (req, res, next) => {
     var type = req.params.type;
     var img = req.params.img;
 
-    var path = `./uploads/${ type }/${ img }`;
+    var pathImage = `./uploads/${ type }/${ img }`;
 
-    fs.exists( path, exist => {
+    fs.exists( pathImage, exist => {
 
         if (!exist) {
-            path = './assets/no-img.jpg';
+            
+            pathImage = path.join(global.ASSETS + 'no-img.jpg');
         }
 
-        res.sendFile( path );
+        res.sendFile( pathImage );
 
     });
-    
+
 });
 
 module.exports = app;
