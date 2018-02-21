@@ -11,7 +11,7 @@ app.get('/:type/:img', (req, res, next) => {
     var type = req.params.type;
     var img = req.params.img;
 
-    var pathImage = `./uploads/${ type }/${ img }`;
+    var pathImage = path.join(global.IMG + type + '/' + img);
 
     fs.exists( pathImage, exist => {
 

@@ -7,6 +7,7 @@ var bodyParser = require('body-parser');
 var app = express();
 
 global.ASSETS = __dirname + '/assets/';
+global.IMG = __dirname + '/uploads/';
 
 // CORS
 app.use(function(req, res, next) {
