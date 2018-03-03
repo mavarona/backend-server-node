@@ -187,16 +187,14 @@ function getMenu ( ROLE ) {
         {
           title: 'maintenance',
           icon: 'mdi mdi-folder-lock-open',
-          submenu: [
-            //{ title: 'Users', url: '/users' },
-            { title: 'Hospitals', url: '/hospitals' },
-            { title: 'Doctors', url: '/doctors' }
-          ]
+          submenu: []
         }
       ];
 
       if ( ROLE === 'ADMIN_ROLE' ) {
           menu[1].submenu.unshift({ title: 'Users', url: '/users' });
+          menu[1].submenu.unshift({ title: 'Hospitals', url: '/hospitals' });
+          menu[1].submenu.unshift({ title: 'Doctors', url: '/doctors' });
       }
 
       return menu;
