@@ -50,6 +50,49 @@ app.get('/', (req, res, next) => {
 });
 
 // ======================================================================
+// Get Doctor by Id
+// ======================================================================
+app.get('/:id', (req, res) => {
+
+    var id = req.params.id;
+
+    Doctor.findById( id )
+          .populate('user', 'name email img')
+          .populate('hospital') 
+          .exec(
+            ( err, doctor) => {
+
+                if( err ) {
+    
+                    return res.status(500).json({
+                        ok: false,
+                        message: 'Error get doctor',
+                        errors: err
+                    });
+    
+                }
+
+                if( !doctor ) {
+    
+                    return res.status(404).json({
+                        ok: false,
+                        message: 'The doctor not exists',
+                        errors: {message: 'The doctor not exists'}
+                    });
+    
+                }
+                
+                res.status(200).json({
+                    ok: true,
+                    doctor: doctor
+                });
+    
+            }
+        );
+        
+});
+
+// ======================================================================
 // Create new doctor
 // ======================================================================
 app.post('/', mdAuthentication.verifyToken , ( req, res ) => {
