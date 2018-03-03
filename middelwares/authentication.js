@@ -31,3 +31,24 @@ exports.verifyToken = function ( req, res, next) {
     });
 
 }
+
+// ======================================================================
+// Verify ADMIN
+// ======================================================================
+
+exports.verifyADMIN_ROLE = function ( req, res, next) {
+
+    var user = req.user;
+
+    if ( user.role === 'ADMIN_ROLE' ) {
+        next();
+        return;
+    } else {
+        return res.status(401).json({
+            ok: false,
+            message: 'Not administrator',
+            error: {message: 'Not administrator'}
+        });
+    }
+
+}
