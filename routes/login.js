@@ -67,7 +67,8 @@ app.post('/google', (req, res) => {
                             ok: true,
                             user: user,
                             token: token,
-                            id: user._id
+                            id: user._id,
+                            menu: getMenu(user.role)
                         });
                     }
 
@@ -98,7 +99,8 @@ app.post('/google', (req, res) => {
                             ok: true,
                             user: userDB,
                             token: token,
-                            id: userDB._id
+                            id: userDB._id,
+                            menu: getMenu(userDB.role)
                         });
 
                     });
@@ -160,12 +162,46 @@ app.post('/', ( req, res ) => {
             ok: true,
             user: userDB,
             token: token,
-            id: userDB._id
+            id: userDB._id,
+            menu: getMenu(userDB.role)
         });
 
     });
 
 });
+
+function getMenu ( ROLE ) {
+
+    menu = [
+        {
+          title: 'Main',
+          icon: 'mdi mdi-gauge,',
+          submenu: [
+            {title: 'Dashboard', url: '/dashboard'},
+            {title: 'Graphs', url: '/graphs1'},
+            {title: 'ProgressBar', url: '/progress'},
+            {title: 'Promises', url: '/promises'},
+            {title: 'Rxjs', url: '/rxjs'},
+          ]
+        },
+        {
+          title: 'maintenance',
+          icon: 'mdi mdi-folder-lock-open',
+          submenu: [
+            //{ title: 'Users', url: '/users' },
+            { title: 'Hospitals', url: '/hospitals' },
+            { title: 'Doctors', url: '/doctors' }
+          ]
+        }
+      ];
+
+      if ( ROLE === 'ADMIN_ROLE' ) {
+          menu[1].submenu.unshift({ title: 'Users', url: '/users' });
+      }
+
+      return menu;
+
+}
 
 
 module.exports = app;
