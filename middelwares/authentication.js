@@ -52,3 +52,25 @@ exports.verifyADMIN_ROLE = function ( req, res, next) {
     }
 
 }
+
+// ======================================================================
+// Verify ADMIN
+// ======================================================================
+
+exports.verifyADMIN_ROLE_Or_SAMEUSER = function ( req, res, next) {
+
+    var user = req.user;
+    var id = req.params.id;
+
+    if ( user.role === 'ADMIN_ROLE' || user._id === id ) {
+        next();
+        return;
+    } else {
+        return res.status(401).json({
+            ok: false,
+            message: 'Not administrator and is the same user',
+            error: {message: 'Not administrator and is the same user'}
+        });
+    }
+
+}
