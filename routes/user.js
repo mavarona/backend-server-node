@@ -27,7 +27,7 @@ app.get('/', (req, res, next) => {
                     return res.status(500).json({
                         ok: false,
                         message: 'Error get Users',
-                        error: err
+                        errors: err
                     });
 
                 }
@@ -69,7 +69,7 @@ app.post('/', ( req, res ) => {
             return res.status(400).json({
                 ok: false,
                 message: 'Error create User',
-                error: err
+                errors: err
             });
 
         }
@@ -101,7 +101,7 @@ app.put('/:id', [mdAuthentication.verifyToken, mdAuthentication.verifyADMIN_ROLE
             return res.status(500).json({
                 ok: false,
                 message: 'Error to search an user',
-                error: err
+                errors: err
             });
 
         }
@@ -111,7 +111,7 @@ app.put('/:id', [mdAuthentication.verifyToken, mdAuthentication.verifyADMIN_ROLE
             return res.status(400).json({
                 ok: false,
                 message: 'The user with id' + id + ' not exists',
-                error: { message: 'Not exist an user with this Id' }
+                errors: { message: 'Not exist an user with this Id' }
             });
 
         }
@@ -159,7 +159,7 @@ app.delete('/:id', [mdAuthentication.verifyToken, mdAuthentication.verifyADMIN_R
             return res.status(500).json({
                 ok: false,
                 message: 'Error to delete an user',
-                error: err
+                errors: err
             });
 
         }
@@ -169,7 +169,7 @@ app.delete('/:id', [mdAuthentication.verifyToken, mdAuthentication.verifyADMIN_R
             return res.status(400).json({
                 ok: false,
                 message: 'The user with id' + id + ' not exists',
-                error: { message: 'Not exist an user with this Id' }
+                errors: { message: 'Not exist an user with this Id' }
             });
 
         }
